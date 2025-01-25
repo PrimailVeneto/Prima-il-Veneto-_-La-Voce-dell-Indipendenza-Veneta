@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Presentazione HTML5</title>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            overflow: hidden;
+            background-color: #f4f4f4;
+            font-family: Arial, sans-serif;
+        }
+        section {
+            display: none;
+            width: 100%;
+            height: 100%;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            position: absolute;
+            top: 0;
+            left: 0;
+            background: #fff;
+        }
+        section.active {
+            display: flex;
+        }
+        img {
+            width: 90%;
+            height: auto;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+        button {
+            position: fixed;
+            bottom: 20px;
+            z-index: 10;
+            padding: 10px 20px;
+            font-size: 16px;
+            background-color: #007BFF;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        button#prev {
+            left: 20px;
+        }
+        button#next {
+            right: 20px;
+        }
+        button#audioToggle {
+            position: fixed;
+            bottom: 20px;
+            z-index: 10;
+            padding: 10px 15px;
+            font-size: 14px;
+            background-color: #28a745;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+        button#audioToggle:hover {
+            background-color: #218838;
+        }
+    </style>
+</head>
+<body>
+    <section class="active">
+        <img src="pagina1.png" alt="Pagina 1">
+        <audio id="audio1" preload="auto">
+            <source src="audio1.mp3" type="audio/mp3">
+            Il tuo browser non supporta l'elemento audio.
+        </audio>
+    </section>
+    <section>
+        <img src="pagina2.png" alt="Pagina 2">
+        <audio id="audio2" preload="auto">
+            <source src="audio2.mp3" type="audio/mp3">
+            Il tuo browser non supporta l'elemento audio.
+        </audio>
+    </section>
+    <section>
+        <img src="pagina3.png" alt="Pagina 3">
+        <audio id="audio3" preload="auto">
+            <source src="audio3.mp3" type="audio/mp3">
+            Il tuo browser non supporta l'elemento audio.
+        </audio>
+    </section>
+
+    <!-- Pulsanti di navigazione -->
+    <button id="prev">Precedente</button>
+    <button id="audioToggle">Audio: ON</button>
+    <button id="next">Successiva</button>
+
+    <script>
+        const sections = document.querySelectorAll('section');
+        const audios = document.querySelectorAll('audio');
+        const prevButton = document.getElementById('prev');
+        const nextButton = document.getElementById('next');
+        const audioToggleButton = document.getElementById('audioToggle');
+
+        let current = 0;
+        let audioEnabled = true; // Stato dell'audio
+
+        const showSection = (index) => {
+            sections.forEach((section, i) => {
+                section.classList.toggle('active', i === index);
+            });
+        };
+
+        const playAudio = (index) => {
+            if (audioEnabled) {
+                audios.forEach((audio, i) => {
+                    if (i === index) {
+                        audio.play();
+                    } else {
+                        audio.pause();
+                        audio.currentTime = 0;
+                    }
+                });
+            } else {
+                audios.forEach((audio) => {
+                    audio.pause();
+                    audio.currentTime = 0;
+                });
+            }
+        };
+
+        const nextSlide = () => {
+            current = (current + 1) % sections.length;
+            showSection(current);
+            playAudio(current);
+        };
+
+        const prevSlide = () => {
+            current = (current - 1 + sections.length) % sections.length;
+            showSection(current);
+            playAudio(current);
+        };
+
+        // Eventi per i pulsanti di navigazione
+        prevButton.addEventListener('click', prevSlide);
+        nextButton.addEventListener('click', nextSlide);
+
+        // Evento per attivare/disattivare l'audio
+        audioToggleButton.addEventListener('click', () => {
+            audioEnabled = !audioEnabled;
+            audioToggleButton.textContent = `Audio: ${audioEnabled ? 'ON' : 'OFF'}`;
+            if (!audioEnabled) {
+                audios.forEach((audio) => audio.pause());
+            }
+        });
+
+        // Inizializza la prima sezione
+        showSection(current);
+        playAudio(current);
+    </script>
+</body>
+</html>
