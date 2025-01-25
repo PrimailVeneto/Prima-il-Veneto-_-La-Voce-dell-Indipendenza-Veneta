@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Presentazione HTML5</title>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            overflow: hidden;
+            background-color: #f4f4f4;
+            font-family: Arial, sans-serif;
+        }
+        section {
+            display: none;
+            width: 100%;
+            height: 100%;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            position: absolute;
+            top: 0;
+            left: 0;
+            background: #fff;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+        section.active {
+            display: flex;
+        }
+        h1 {
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+        img {
+            max-width: 90%;
+            max-height: 60%;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+        button {
+            position: fixed;
+            bottom: 20px;
+            z-index: 10;
+            padding: 10px 20px;
+            font-size: 18px;
+            background-color: #007BFF;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        button#prev {
+            left: 20px;
+        }
+        button#next {
+            right: 20px;
+        }
+    </style>
+</head>
+<body>
+    <section class="active">
+        <h1>Pagina 1</h1>
+        <img src="pagina1.png" alt="Pagina 1">
+        <audio id="audio1" preload="auto">
+            <source src="audio1.mp3" type="audio/mp3">
+            Il tuo browser non supporta l'elemento audio.
+        </audio>
+    </section>
+    <section>
+        <h1>Pagina 2</h1>
+        <img src="pagina2.png" alt="Pagina 2">
+        <audio id="audio2" preload="auto">
+            <source src="audio2.mp3" type="audio/mp3">
+            Il tuo browser non supporta l'elemento audio.
+        </audio>
+    </section>
+    <section>
+        <h1>Pagina 3</h1>
+        <img src="pagina3.png" alt="Pagina 3">
+        <audio id="audio3" preload="auto">
+            <source src="audio3.mp3" type="audio/mp3">
+            Il tuo browser non supporta l'elemento audio.
+        </audio>
+    </section>
+
+    <!-- Pulsanti di navigazione -->
+    <button id="prev">Precedente</button>
+    <button id="next">Successiva</button>
+
+    <script>
+        const sections = document.querySelectorAll('section');
+        const audios = document.querySelectorAll('audio');
+        const prevButton = document.getElementById('prev');
+        const nextButton = document.getElementById('next');
+        let current = 0;
+        let isFirstInteraction = true; // Per sapere se è il primo clic
+
+        const showSection = (index) => {
+            sections.forEach((section, i) => {
+                section.classList.toggle('active', i === index);
+            });
+        };
+
+        const playAudio = (index) => {
+            audios.forEach((audio, i) => {
+                if (i === index) {
+                    audio.play();
+                } else {
+                    audio.pause();
+                    audio.currentTime = 0;
+                }
+            });
+        };
+
+        const nextSlide = () => {
+            if (isFirstInteraction) {
+                audios[current].play(); // Riproduce l'audio della prima slide
+                isFirstInteraction = false; // Non necessario per le interazioni successive
+                return;
+            }
+            current = (current + 1) % sections.length;
+            showSection(current);
+            playAudio(current);
+        };
+
+        const prevSlide = () => {
+            current = (current - 1 + sections.length) % sections.length;
+            showSection(current);
+            playAudio(current);
+        };
+
+        // Eventi per i pulsanti di navigazione
+        prevButton.addEventListener('click', prevSlide);
+        nextButton.addEventListener('click', nextSlide);
+
+        // Inizializza la prima sezione
+        showSection(current);
+    </script>
+</body>
+</html>
