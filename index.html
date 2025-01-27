@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Presentazione HTML5</title>
+    <style>
+        body {
+            margin: 0;
+            overflow: hidden;
+            font-family: Arial, sans-serif;
+        }
+        header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            height: 50px; /* Altezza ridotta per eliminare la fascia bianca */
+            display: flex;
+            align-items: center;
+            background-color: #fff;
+            padding: 0 10px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            z-index: 10;
+        }
+        header img {
+            width: 32px; /* Logo più piccolo */
+            height: 32px;
+            margin-right: 10px;
+        }
+        header a {
+            margin-right: 15px;
+            text-decoration: none;
+            color: #007BFF;
+            font-size: 14px;
+        }
+        header a:hover {
+            text-decoration: underline;
+        }
+        section {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100%;
+            width: 100%;
+            position: absolute;
+            top: 50px; /* Spazio lasciato dall'header */
+            left: 0;
+            background-color: #f4f4f4;
+        }
+        section img {
+            max-width: 100%;
+            max-height: calc(100% - 100px); /* Considera l'header e il footer */
+            border-radius: 10px;
+        }
+        .footer {
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            height: 50px; /* Altezza ridotta per il footer */
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 10px;
+            background-color: #fff;
+            box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
+            z-index: 10;
+        }
+        button {
+            padding: 8px 15px;
+            font-size: 14px;
+            background-color: #007BFF;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        #audio-toggle {
+            background-color: #28a745;
+        }
+        #audio-toggle:hover {
+            background-color: #1e7e34;
+        }
+        .page-number {
+            font-size: 14px;
+            font-weight: bold;
+            margin-left: 10px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <img src="logo.png" alt="Logo">
+        <a href="https://www.youtube.com/@primailveneto.5323" target="_blank">YouTube</a>
+        <a href="https://www.facebook.com/primailvenetopunto" target="_blank">Facebook</a>
+        <a href="https://www.instagram.com/prima_il_veneto/" target="_blank">Instagram</a>
+    </header>
+
+    <section class="active">
+        <img src="pagina1.png" alt="Pagina 1">
+        <audio id="audio1" preload="auto">
+            <source src="audio1.mp3" type="audio/mp3">
+            Il tuo browser non supporta l'elemento audio.
+        </audio>
+    </section>
+    <section>
+        <img src="pagina2.png" alt="Pagina 2">
+        <audio id="audio2" preload="auto">
+            <source src="audio2.mp3" type="audio/mp3">
+            Il tuo browser non supporta l'elemento audio.
+        </audio>
+    </section>
+    <section>
+        <img src="pagina3.png" alt="Pagina 3">
+        <audio id="audio3" preload="auto">
+            <source src="audio3.mp3" type="audio/mp3">
+            Il tuo browser non supporta l'elemento audio.
+        </audio>
+    </section>
+
+    <div class="footer">
+        <button id="prev">Precedente</button>
+        <button id="audio-toggle">Audio OFF</button>
+        <div>
+            <button id="next">Successiva</button>
+            <span class="page-number" id="page-number">1/3</span>
+        </div>
+    </div>
+
+    <script>
+        const sections = document.querySelectorAll('section');
+        const audios = document.querySelectorAll('audio');
+        const prevButton = document.getElementById('prev');
+        const nextButton = document.getElementById('next');
+        const audioToggleButton = document.getElementById('audio-toggle');
+        const pageNumber = document.getElementById('page-number');
+        let current = 0;
+        let audioEnabled = false;
+
+        const showSection = (index) => {
+            sections.forEach((section, i) => {
+                section.classList.toggle('active', i === index);
+            });
+            pageNumber.textContent = `${index + 1}/${sections.length}`;
+        };
+
+        const toggleAudio = () => {
+            audioEnabled = !audioEnabled;
+            audioToggleButton.textContent = audioEnabled ? 'Audio ON' : 'Audio OFF';
+            if (!audioEnabled) {
+                audios.forEach(audio => audio.pause());
+            } else {
+                audios[current].play();
+            }
+        };
+
+        const playAudio = (index) => {
+            if (audioEnabled) {
+                audios.forEach((audio, i) => {
+                    if (i === index) {
+                        audio.play();
+                    } else {
+                        audio.pause();
+                        audio.currentTime = 0;
+                    }
+                });
+            }
+        };
+
+        const nextSlide = () => {
+            current = (current + 1) % sections.length;
+            showSection(current);
+            playAudio(current);
+        };
+
+        const prevSlide = () => {
+            current = (current - 1 + sections.length) % sections.length;
+            showSection(current);
+            playAudio(current);
+        };
+
+        const handleSwipe = (event) => {
+            const touch = event.changedTouches[0];
+            const deltaY = touch.clientY - touchStartY;
+            if (deltaY < -50) nextSlide();
+            if (deltaY > 50) prevSlide();
+        };
+
+        let touchStartY = 0;
+        document.addEventListener('touchstart', (event) => {
+            touchStartY = event.changedTouches[0].clientY;
+        });
+
+        document.addEventListener('touchend', handleSwipe);
+
+        prevButton.addEventListener('click', prevSlide);
+        nextButton.addEventListener('click', nextSlide);
+        audioToggleButton.addEventListener('click', toggleAudio);
+
+        showSection(current);
+    </script>
+</body>
+</html>
