@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Presentazione</title>
+    <style>
+        /* Stile generale */
+        body {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            overflow: hidden;
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4; /* Sfondo uniforme per tutto il layout */
+        }
+
+        /* Stile della barra superiore */
+        .top-bar {
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+            width: 100%;
+            padding: 5px 15px;
+            background-color: #ffffff;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            position: fixed;
+            top: 0;
+            z-index: 10;
+        }
+
+        .top-bar img {
+            width: 32px; /* Logo con dimensioni predefinite */
+            height: 32px;
+            margin-right: 10px;
+        }
+
+        .top-bar span {
+            font-size: 14px;
+            font-weight: bold;
+            color: #333333;
+            margin-right: 15px;
+        }
+
+        .top-bar a {
+            margin-right: 15px;
+            text-decoration: none;
+            font-size: 14px;
+            color: #007BFF; /* Link blu */
+        }
+
+        .top-bar a:hover {
+            text-decoration: underline;
+        }
+
+        /* Contenitore per lo slider verticale */
+        .slider {
+            position: relative;
+            width: 100%;
+            height: calc(100% - 140px); /* Compensazione per barra superiore e inferiore */
+            overflow: hidden;
+            margin-top: 50px; /* Spazio per evitare sovrapposizione con la barra superiore */
+        }
+
+        .slides {
+            display: flex;
+            flex-direction: column; /* Disposizione verticale */
+            width: 100%;
+            height: 100%;
+            transition: transform 0.3s ease-in-out; /* Animazione fluida */
+        }
+
+        section {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            height: 100%;
+            padding: 0;
+        }
+
+        img {
+            max-width: 97%; /* Riduzione della dimensione massima delle immagini */
+            max-height: 97%;
+            object-fit: contain; /* Mantiene proporzioni */
+            border-radius: 10px; /* Angoli arrotondati */
+        }
+
+        /* Barra inferiore */
+        .bottom-bar {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            padding: 10px 15px;
+            background-color: #ffffff;
+            box-shadow: 0 -2px 4px rgba(0, 0, 0, 0.1);
+            position: fixed;
+            bottom: 0;
+            z-index: 10;
+        }
+
+        button {
+            padding: 8px 12px;
+            font-size: 14px;
+            background-color: #007BFF; /* Colore principale dei pulsanti */
+            color: #ffffff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-left: 10px;
+        }
+
+        button:hover {
+            background-color: #0056b3; /* Hover per pulsanti generici */
+        }
+
+        /* Aggiungi questo stile per avere dimensione pulsante Audio che non cambia nello stato di ON e OFF*/
+        button#audio-toggle {
+            background-color: #28a745; /* Verde per audio attivo */
+            width: 100px; /* Larghezza fissa pulsante Audio ON e Audio OFF*/
+            margin-right: 10px;      
+        }		
+			
+        button#audio-toggle.off {
+            background-color: #dc3545; /* Rosso per audio disattivato */
+        }
+
+        button#audio-toggle:hover {
+            background-color: #218838; /* Hover specifico per pulsante audio */
+        }
+
+        button#audio-toggle.off:hover {
+            background-color: #c82333; /* Hover per pulsante audio disattivato */
+        }
+
+        .page-number {
+            font-size: 14px;
+            color: #333333;
+            margin-left: 5px;
+            margin-right: auto; /* Spinge il contatore a sinistra */
+        }
+    </style>
+</head>
+<body>
+    <!-- Barra superiore -->
+    <div class="top-bar" role="navigation"> <!-- Modifica: Aggiunto ruolo per accessibilità -->
+        <img src="logo.png" alt="Logo"> <!-- Aggiunta del logo -->
+        <span>Prima il Veneto.</span> <!-- Slogan o titolo -->
+        <a href="https://www.youtube.com/@primailveneto.5323" target="_blank">YouTube</a>
+        <a href="https://www.facebook.com/primailvenetopunto" target="_blank">Facebook</a>
+        <a href="https://www.instagram.com/prima_il_veneto/" target="_blank">Instagram</a>
+    </div>
+
+    <!-- Slider -->
+    <div class="slider">
+        <div class="slides">
+            <!-- Prima sezione con immagine e audio -->
+            <section tabindex="0"> <!-- Modifica: Aggiunto tabindex per accessibilità -->
+                <img src="pagina1.png" alt="Pagina 1">
+                <audio id="audio1" preload="auto">
+                    <source src="audio1.mp3" type="audio/mp3">
+                </audio>
+            </section>
+            <!-- Seconda sezione -->
+            <section tabindex="0"> <!-- Modifica: Aggiunto tabindex per accessibilità -->
+                <img src="pagina2.png" alt="Pagina 2">
+                <audio id="audio2" preload="auto">
+                    <source src="audio2.mp3" type="audio/mp3">
+                </audio>
+            </section>
+            <!-- Terza sezione -->
+            <section tabindex="0"> <!-- Modifica: Aggiunto tabindex per accessibilità -->
+                <img src="pagina3.png" alt="Pagina 3">
+                <audio id="audio3" preload="auto">
+                    <source src="audio3.mp3" type="audio/mp3">
+                </audio>
+            </section>
+			
+			<!-- Quarta sezione -->
+			<section tabindex="0"> <!-- Modifica: Aggiunto tabindex per accessibilità -->
+				<img src="pagina4.png" alt="Pagina 4">
+				<audio id="audio4" preload="auto">
+					<source src="audio4.mp3" type="audio/mp3">
+				</audio>
+			</section>
+			<!-- Quinta sezione -->
+			<section tabindex="0"> <!-- Modifica: Aggiunto tabindex per accessibilità -->
+				<img src="pagina5.png" alt="Pagina 5">
+				<audio id="audio5" preload="auto">
+					<source src="audio5.mp3" type="audio/mp3">
+				</audio>
+			</section>
+			<!-- Sesta sezione -->
+			<section tabindex="0"> <!-- Modifica: Aggiunto tabindex per accessibilità -->
+				<img src="pagina6.png" alt="Pagina 6">
+				<audio id="audio6" preload="auto">
+					<source src="audio6.mp3" type="audio/mp3">
+				</audio>
+			</section>
+			<!-- Settima sezione -->
+			<section tabindex="0"> <!-- Modifica: Aggiunto tabindex per accessibilità -->
+				<img src="pagina7.png" alt="Pagina 7">
+				<audio id="audio7" preload="auto">
+					<source src="audio7.mp3" type="audio/mp3">
+				</audio>
+			</section>
+			<!-- Ottava sezione -->
+			<section tabindex="0"> <!-- Modifica: Aggiunto tabindex per accessibilità -->
+				<img src="pagina8.png" alt="Pagina 8">
+				<audio id="audio8" preload="auto">
+					<source src="audio8.mp3" type="audio/mp3">
+				</audio>
+			</section>
+		
+        </div>
+    </div>
+
+    <!-- Barra inferiore -->
+    <div class="bottom-bar">
+        <button id="prev" aria-label="Precedente">Precedente</button> <!-- Pulsante slide precedente con etichetta per accessibilità -->
+        <button id="audio-toggle" class="off" aria-label="Toggle Audio">Audio OFF</button> <!-- Pulsante audio con stato iniziale disattivato -->
+        <button id="next" aria-label="Successiva">Successiva</button> <!-- Pulsante slide successiva con etichetta per accessibilità -->
+        <span class="page-number" id="page-number">1/8</span> <!-- Contatore pagina : 8 pagine-->
+    </div>
+
+    <script>
+        const sections = document.querySelectorAll('section');
+        const slides = document.querySelector('.slides');
+        const audios = document.querySelectorAll('audio');
+        const prevButton = document.getElementById('prev');
+        const nextButton = document.getElementById('next');
+        const audioToggle = document.getElementById('audio-toggle');
+        const pageNumber = document.getElementById('page-number');
+        let currentIndex = 0; /* Indice corrente dello slide */
+        let audioEnabled = false; /* Stato iniziale dell'audio */
+        let isDragging = false;
+        let startY = 0;
+        let currentTranslate = 0; /* Traslazione corrente per il drag */
+
+        const updateSlide = (index) => {
+            currentIndex = index;
+            slides.style.transform = `translateY(-${currentIndex * 100}%)`;
+            pageNumber.textContent = `${currentIndex + 1}/${sections.length}`;
+            playAudio();
+        };
+
+        const playAudio = () => {
+            if (audioEnabled) {
+                audios.forEach((audio, i) => {
+                    if (i === currentIndex) {
+                        audio.play().catch(error => alert('Audio playback failed:' + error)); /* Modifica: Aggiunto alert in caso di errore */
+                    } else {
+                        audio.pause();
+                        audio.currentTime = 0;
+                    }
+                });
+            }
+        };
+
+        audioToggle.addEventListener('click', () => {
+            audioEnabled = !audioEnabled;
+            audioToggle.textContent = audioEnabled ? 'Audio ON' : 'Audio OFF';
+            audioToggle.classList.toggle('off', !audioEnabled);
+            if (audioEnabled) playAudio();
+            else audios.forEach(audio => audio.pause());
+        });
+
+        // Funzione per gestire il movimento verticale durante il trascinamento
+        const handleTouchMove = (e) => {
+            if (isDragging) { // Verifica se il trascinamento è attivo
+                const touchY = e.touches[0].clientY; // Posizione verticale del tocco
+                const delta = touchY - startY; // Differenza rispetto all'inizio del trascinamento
+                slides.style.transition = 'none'; // Disabilita transizione per movimento fluido
+				slides.style.transform = `translateY(calc(-${currentIndex * 100}% + ${delta}px))`; // Sposta lo slider
+            }
+        };
+
+        // Funzione per gestire la fine del trascinamento
+        const handleTouchEnd = (e) => {
+            if (isDragging) {
+                isDragging = false; // Disattiva il trascinamento
+                const touchEndY = e.changedTouches[0].clientY; // Posizione finale del tocco
+                const delta = touchEndY - startY; // Differenza rispetto all'inizio
+                // Logica per cambiare slide o tornare alla posizione originale
+                if (delta > 50 && currentIndex > 0) updateSlide(currentIndex - 1); // Movimento verso il basso
+                else if (delta < -50 && currentIndex < sections.length - 1) updateSlide(currentIndex + 1); // Movimento verso l'alto
+                else updateSlide(currentIndex); // Ritorna alla posizione corrente
+                slides.style.transition = 'transform 0.3s ease'; // Ripristina la transizione
+            }
+        };
+
+        // Listener per l'inizio del trascinamento
+        document.addEventListener('touchstart', (e) => {
+            isDragging = true; // Attiva il trascinamento
+            startY = e.touches[0].clientY; // Registra la posizione iniziale
+            slides.style.transition = 'none'; // Disabilita la transizione
+        });
+
+        // Listener per il movimento durante il trascinamento
+        document.addEventListener('touchmove', handleTouchMove);
+
+        // Listener per la fine del trascinamento
+        document.addEventListener('touchend', handleTouchEnd);
+
+        prevButton.addEventListener('click', () => updateSlide((currentIndex - 1 + sections.length) % sections.length));
+        nextButton.addEventListener('click', () => updateSlide((currentIndex + 1) % sections.length));
+
+        updateSlide(currentIndex); /* Inizializzazione dello slide */
+    </script>
+</body>
+</html>
