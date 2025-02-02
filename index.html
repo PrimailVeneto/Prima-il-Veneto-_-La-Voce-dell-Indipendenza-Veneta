@@ -87,7 +87,7 @@
 /* height fissa l'altezza di un elemento, mentre max-height specifica un limite massimo oltre il quale l'elemento non può crescere */
         img {
             max-width: 97%; /* Riduzione della dimensione massima delle immagini */
-            height: 100%    /*  prima era:   max-height:-97%;  */
+            height: 100%;    /*  prima era:   max-height: 97%;  */
             object-fit: contain; /* Mantiene proporzioni */
             border-radius: 10px; /* Angoli arrotondati */
         }
@@ -251,18 +251,24 @@
             playAudio();
         };
 
-        const playAudio = () => {
-            if (audioEnabled) {
-                audios.forEach((audio, i) => {
-                    if (i === currentIndex) {
-                        audio.play().catch(error => alert('Audio playback failed:' + error)); /* Modifica: Aggiunto alert in caso di errore */
-                    } else {
-                        audio.pause();
-                        audio.currentTime = 0;
-                    }
-                });
-            }
-        };
+		const playAudio = () => {
+			if (audioEnabled) {
+				audios.forEach((audio, i) => {
+					if (i === currentIndex) {
+						audio.play()
+							.catch(error => console.error('Errore nella riproduzione audio:', error)); /* Aggiunto alert in caso di errore */
+
+						// l'audio è ripristinato dopo la fine della riproduzione
+						audio.onended = () => {
+							audio.currentTime = 0; // Reset audio
+						};
+					} else {
+						audio.pause();
+						audio.currentTime = 0;
+					}
+				});
+			}
+		};
 
         audioToggle.addEventListener('click', () => {
             audioEnabled = !audioEnabled;
